@@ -1,3 +1,7 @@
+//Este programa ha sido creado por Erick Renato Vega Cerón para el grupo 17 de Ingeniería en Sistemas Computacionales
+//Centro Universitario Hidalguense
+//erick@armony.systems
+
 #include <SPI.h>
 #include <MFRC522.h>
 #include <LiquidCrystal.h>
@@ -26,7 +30,10 @@ long DO=523.25, //definimos las frecuencias de las notas
 int d=1000, e=450, m=240, c=110, sc=50; //definimos los tiempos de doble, entera, media y cuarta
 int melodiAceptado[] = {DO,PAU,DoS,PAU,SOL,PAU,LA};
 int duracionNotaAceptado[] = {sc,sc,sc,sc,sc,sc,c}; 
-       
+
+int melodiL[] = {DO,DoS,DO};
+int duracionNL[] = {sc,sc,sc}; 
+
 int melodiRechazado[] = {DoS,PAU,DoS,PAU,DoS};
 int duracionNotaRechazado[] = {d,sc,d,sc,d}; 
 
@@ -48,7 +55,8 @@ void setup() {
   mfrc522.PCD_Init(); // Iniciamos  el MFRC522
 
   pinMode(8, OUTPUT); 
-  
+ 
+     
      
    inicioPant();
    inicio=0;
@@ -96,21 +104,51 @@ noTone(8); //finaliza la melodía
                                                                                     }
 }  
 
-
+                                                                                    
+          
 }
-void Cserial(){
- if (Serial.available() > 0) {
-    String incomingS;
-    incomingS = Serial.readString();
-    if (incomingS != -1) {
-      if(incomingS.equals("CUHS"))
-      acceso(1);   
-      if(incomingS.equals("CUHN"))
-      acceso(0);
+String Split(String data, char separator, int index)
+{
+  int found = 0;
+  int strIndex[] = {0, -1};
+  int maxIndex = data.length()-1;
+
+  for(int i=0; i<=maxIndex && found<=index; i++){
+    if(data.charAt(i)==separator || i==maxIndex){
+        found++;
+        strIndex[0] = strIndex[1]+1;
+        strIndex[1] = (i == maxIndex) ? i+1 : i;
     }
   }
 
+  return found>index ? data.substring(strIndex[0], strIndex[1]) : "";
 }
+
+void Cserial(){
+ if (Serial.available() > 0) {
+    
+    String incomingS1;
+    String autorizacion;
+     String nombre;
+    incomingS1 = Serial.readString();
+    
+    
+    if (incomingS1 != -1) {
+      String autorizacion = Split(incomingS1,';',0);
+      String nombre = Split(incomingS1,';',1);
+      if(autorizacion.equals("CUHS")){  
+      
+      acceso(1,nombre);
+                                  }
+      if(autorizacion.equals("CUHN")){
+        acceso(0,"");
+      }                            
+                                 
+      }
+    }
+  }
+
+
 void ESerial(){                
 
                   for (byte i = 0; i <4; i++) {   
@@ -133,12 +171,19 @@ void RFID(){
             }
   }
 }
-void acceso(int modo){
+void acceso(int modo, String nombre){
  if (modo==1){
+  String mensaje1="||Acceso Concedido||";
+  String mensaje2="|Bienvenido|";
+  
                     lcd.clear();
                     delay(100);
-                    lcd.setCursor(0, 0);
-                    lcd.print("Acceso Concedido");
+                    lcd.setCursor(0, 0);//Se colocan los mensajes centrados (10 es la mitad de 20 caracteres máximos del display, menos la mitad del tamaño del mensaje)
+                    lcd.print(mensaje1);
+                    lcd.setCursor(3, 1);
+                    lcd.print(mensaje2);
+                    lcd.setCursor(10-(sizeof(nombre)+2/2), 3);
+                    lcd.print(nombre);
                     sonido(1);
                     myservo.write(75);
                     delay(4000);
@@ -147,10 +192,20 @@ void acceso(int modo){
                     delay(500);
  }
  if (modo==0){
+  String mensaje1="X|Acceso Denegado|X";
+  String mensaje2="Informes";
+  String mensaje3="en";
+  String mensaje4="Recepcion";
                     lcd.clear();
                     delay(100);
-                    lcd.setCursor(0, 0);
-                    lcd.print("Acceso Denegado");
+                    lcd.setCursor(1, 0);
+                    lcd.print(mensaje1);
+                    lcd.setCursor(5, 1);
+                    lcd.print(mensaje2);
+                    lcd.setCursor(7, 2);
+                    lcd.print(mensaje3);
+                    lcd.setCursor(5, 3);
+                    lcd.print(mensaje4);
                     sonido(2);
                     delay(3000);
                     inicio=1;
