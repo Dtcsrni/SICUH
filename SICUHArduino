@@ -1,0 +1,184 @@
+#include <SPI.h>
+#include <MFRC522.h>
+#include <LiquidCrystal.h>
+#include <Servo.h> 
+
+#define RST_PIN  9    //Pin 9 para el reset del RC522
+#define SS_PIN  10   //Pin 10 para el SS (SDA) del RC522
+MFRC522 mfrc522(SS_PIN, RST_PIN); //Creamos el objeto para el RC522
+          // set pin to input
+long DO=523.25, //definimos las frecuencias de las notas
+        DoS=554.37,
+        RE=587.33,
+        RES=622.25,
+        MI=659.26,
+        FA=698.46,
+        FAS=739.99,
+        SOL=783.99,
+        SOLS=830.61,
+        LA=880,
+        LAS=932.33,
+        SI=987.77,
+        RE2=1174.66,
+        FAS2=1479.98,
+        PAU=30000; //pausa
+
+int d=1000, e=450, m=240, c=110, sc=50; //definimos los tiempos de doble, entera, media y cuarta
+int melodiAceptado[] = {DO,PAU,DoS,PAU,SOL,PAU,LA};
+int duracionNotaAceptado[] = {sc,sc,sc,sc,sc,sc,c}; 
+       
+int melodiRechazado[] = {DoS,PAU,DoS,PAU,DoS};
+int duracionNotaRechazado[] = {d,sc,d,sc,d}; 
+
+byte incomingByte = 0;
+byte ActualUID[4]; //almacenará el código del Tag leído
+int Usuario1[4]= {53, 100, 230, 43} ; //código del usuario 1
+byte Usuario2[4]= {0x87, 0x8D, 0x60, 0xA3} ; //código del usuario 2
+
+Servo myservo;  //creamos un objeto servo 
+LiquidCrystal lcd(A0, A1, 7, 6, 5, 4);
+int inicio=0;
+void setup() {
+ lcd.begin(20, 4);
+ delay(200);
+  // Escribimos el Mensaje en el LCD.
+  Serial.begin(9600); //Iniciamos la comunicación  serial
+  delay(100);
+  SPI.begin();        //Iniciamos el Bus SPI
+  mfrc522.PCD_Init(); // Iniciamos  el MFRC522
+
+  pinMode(8, OUTPUT); 
+  
+     
+   inicioPant();
+   inicio=0;
+   myservo.attach(3);  // asignamos el pin 9 al servo.
+   myservo.write(179);
+}
+
+void inicioPant(){
+     lcd.clear();
+     delay(200);
+     lcd.setCursor(0, 0);
+ lcd.print("CENTRO UNIVERSITARIO");
+     lcd.setCursor(5, 1);
+ lcd.print("HIDALGUENSE");
+     lcd.setCursor(3, 2);
+ lcd.print("||BIENVENIDO||");
+     lcd.setCursor(0, 3);
+ lcd.print("PASE IDENTIFICACION"); 
+}
+void inicioPant2(){
+     lcd.clear();
+     delay(200);
+     lcd.setCursor(5, 1);
+ lcd.print("Procesando ");
+ lcd.setCursor(6, 2);
+ lcd.print("tarjeta");
+ lcd.setCursor(8, 3);
+ lcd.print("..."); 
+    
+}
+
+void sonido(int tipo){
+if(tipo==1){  
+for (int notaActual = 0; notaActual < sizeof(melodiAceptado) / sizeof(int); notaActual++) {  //va a repetir las 112 notas
+tone(8, melodiAceptado[notaActual]); //da el tono a la frecuencia de la nota en ese momento
+delay(duracionNotaAceptado[notaActual]);//se mantiene con la nota el tiempo definido para esa nota
+noTone(8); //finaliza la melodía
+                                                                                    }
+}
+if(tipo==2){  
+for (int notaActual = 0; notaActual < sizeof(melodiRechazado) / sizeof(int); notaActual++) {  //va a repetir las 112 notas
+tone(8, melodiRechazado[notaActual]); //da el tono a la frecuencia de la nota en ese momento
+delay(duracionNotaRechazado[notaActual]);//se mantiene con la nota el tiempo definido para esa nota
+noTone(8); //finaliza la melodía
+                                                                                    }
+}  
+
+
+}
+void Cserial(){
+ if (Serial.available() > 0) {
+    String incomingS;
+    incomingS = Serial.readString();
+    if (incomingS != -1) {
+      if(incomingS.equals("CUHS"))
+      acceso(1);   
+      if(incomingS.equals("CUHN"))
+      acceso(0);
+    }
+  }
+
+}
+void ESerial(){                
+
+                  for (byte i = 0; i <4; i++) {   
+                          Serial.print(mfrc522.uid.uidByte[i]);                                                               
+                  }       
+                  
+}
+
+
+void RFID(){
+ // Revisamos si hay nuevas tarjetas  presentes
+  if ( mfrc522.PICC_IsNewCardPresent()) 
+        {  
+      //Seleccionamos una tarjeta
+            if ( mfrc522.PICC_ReadCardSerial()) 
+            {
+                  inicio=2;
+                  ESerial();         
+                  mfrc522.PICC_HaltA();
+            }
+  }
+}
+void acceso(int modo){
+ if (modo==1){
+                    lcd.clear();
+                    delay(100);
+                    lcd.setCursor(0, 0);
+                    lcd.print("Acceso Concedido");
+                    sonido(1);
+                    myservo.write(75);
+                    delay(4000);
+                    inicio=1;
+                    myservo.write(179);
+                    delay(500);
+ }
+ if (modo==0){
+                    lcd.clear();
+                    delay(100);
+                    lcd.setCursor(0, 0);
+                    lcd.print("Acceso Denegado");
+                    sonido(2);
+                    delay(3000);
+                    inicio=1;
+    
+ }
+}
+void loop() {
+if(inicio==1){
+inicioPant();
+inicio=0;
+  }
+if(inicio==2){
+inicioPant2();
+inicio=0;
+  }
+RFID();    
+Cserial();                
+
+
+  
+}
+
+//Función para comparar dos vectores
+ boolean compareArray(byte array1[],byte array2[])
+{
+  if(array1[0] != array2[0])return(false);
+  if(array1[1] != array2[1])return(false);
+  if(array1[2] != array2[2])return(false);
+  if(array1[3] != array2[3])return(false);
+  return(true);
+}
