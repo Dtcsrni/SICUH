@@ -18,13 +18,15 @@ import javax.swing.UIManager;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-
+import java.io.File;
 
 /**
  *
  * @author Erick Vega
  */
 public class CUHID extends JPanel{
+    
+    //Código experimental de funcionamiento con pestañas (pronto a implementarse)
     /*public CUHID(){
        super(new GridLayout(1, 1)); 
         JTabbedPane tabbedPane = new JTabbedPane();
@@ -59,7 +61,7 @@ public class CUHID extends JPanel{
         tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
     }
     
-     
+     */
     protected static ImageIcon createImageIcon(String path) {
         java.net.URL imgURL = CUHID.class.getResource(path);
         if (imgURL != null) {
@@ -68,7 +70,7 @@ public class CUHID extends JPanel{
             System.err.println("Couldn't find file: " + path);
             return null;
         }
-    }
+    }/*
     protected JComponent makeTextPanel(String text) {
         JPanel panel = new JPanel(false);
         JLabel filler = new JLabel(text);
@@ -98,35 +100,30 @@ public class CUHID extends JPanel{
 		createAndShowGUI();
             }
         });*/
+       
         
-        System.out.println("Abriendo puerto...");
-    SerialPort sp = SerialPort.getCommPort("COM3"); // device name TODO: must be changed
-    sp.setComPortParameters(9600, 8, 1, 0); // default connection settings for Arduino
-    sp.setComPortTimeouts(SerialPort.TIMEOUT_WRITE_BLOCKING, 0, 0); // block until bytes can be written
-    int erick=892547376;
-    boolean salir=false;
-    
-    
-    if (sp.openPort()) {
-      System.out.println("Puerto abierto con exito");
-    } else {
-      System.out.println("El puerto no ha podido abrirse");
-      return;
-    }          
-     Thread.sleep(900);
 // create a jframe
     JFrame marco = new JFrame("CUHID");
     String msg = "<html><center>Bienvenido</center><br> Elija una Acción";
     String msjTarjeta="Esperando Tarjeta";
+    //Creacion de objeto para puerto
+    SerialPort sp = SerialPort.getCommPort("COM3"); // device name TODO: must be changed
+    sp.setComPortParameters(9600, 8, 1, 0); // default connection settings for Arduino
+    sp.setComPortTimeouts(SerialPort.TIMEOUT_WRITE_BLOCKING, 0, 0); // block until bytes can be written
+    //Fin de creacion de objeto para puerto
+    int erick=892547376;
+    boolean salir=false;
     final JLabel label = new JLabel(msjTarjeta, JLabel.CENTER);
     int ventana=0;
+    marco.setVisible(true);
      
     String[] options = {"Monitoreo de tarjetas", "Registro de Tarjetas", "Registro de Asistencias", "Acceso invitados"};
     String[] options2 = {"Regresar"};
+    ImageIcon iconCUH = createImageIcon("/image/cuhpng_1.png");//Creamos el ícono de CUH
     // show a joptionpane dialog using showMessageDialog
-    int opcion=JOptionPane.showOptionDialog(null, "Bienvenido. Elija acción a realizar",
-                "CUHID",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+    int opcion=JOptionPane.showOptionDialog(null, "<html><br>Sistema de Identificacion del Centro Universitario Hidalguense",
+                "CUHID Alpha",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, iconCUH, options, options[0]);
    Thread monitoreo = new Thread(new Runnable(){
         public void run(){
             int n = JOptionPane.showOptionDialog(marco,
@@ -142,12 +139,14 @@ options[0]);
     
     switch(opcion){
         case 0:
+            abrirPuerto(sp);
             monitoreo.start();
             System.out.println("Monitoreo Activo");
             do{//Menu
         rEstadoTarjeta(sp);
         Thread.sleep(900);     
-                }while(!salir);
+                }while(opcion!=JOptionPane.OK_OPTION);
+            cerrarPuerto(sp);
             break;
         case 1:
         break;
@@ -160,11 +159,7 @@ options[0]);
     }
     
         
-      if (sp.closePort()) {
-      System.out.println("El puerto ha sido cerrado con exito");
-    } else {
-      System.out.println("No se ha podido cerrar el puerto");   
-    }  
+        
     
     }
     static int decodificar(byte[] codigo){
@@ -175,8 +170,11 @@ options[0]);
         return converso;
     }
     static void rEstadoTarjeta(SerialPort sp) throws IOException, InterruptedException{
-        String mensajeS="CUHS";
+        String nombre="Erick Vega";
+        String mensajeS="CUHS"+";"+nombre;
         String mensajeN="CUHN";
+        
+        String mensajeDatos="";
         int encontrado=0;
         int cEnviada=0;
         boolean tarjeta=false;
@@ -193,8 +191,9 @@ options[0]);
             if(cEnviada==erick){
              sp.getOutputStream().write(mensajeS.getBytes());
              sp.getOutputStream().flush();
+             String msjNombre="Erick Vega";
              System.out.println("Acceso Concedido");
-             
+             System.out.println("Bienvenido "+msjNombre);
              Thread.sleep(4000);
              encontrado=1;
             }
@@ -205,6 +204,23 @@ options[0]);
             Thread.sleep(4000); 
             }           
         }
+    }
+    static void abrirPuerto(SerialPort sp)throws IOException, InterruptedException{
+        System.out.println("Abriendo puerto...");
+    if (sp.openPort()) {
+      System.out.println("Puerto abierto con exito");
+    } else {
+      System.out.println("El puerto no ha podido abrirse");
+      return;
+    }          
+     Thread.sleep(900);
+    }
+    static void cerrarPuerto(SerialPort sp)throws IOException, InterruptedException{
+        if (sp.closePort()) {
+      System.out.println("El puerto ha sido cerrado con exito");
+    } else {
+      System.out.println("No se ha podido cerrar el puerto");   
+    }
     }
 }
 
