@@ -17,8 +17,13 @@ import javax.swing.UIManager;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.nio.charset.Charset;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
-
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.util.List;
 /**
  *
  * @author Erick Vega
@@ -91,6 +96,79 @@ public class CUHID extends JPanel{
         frame.setVisible(true);
     }
     */
+     void EscribirFichero() throws IOException{
+
+        String ruta = "datos/archivo.txt";
+        File archivo = new File(ruta);
+        BufferedWriter bw = null;
+        if(archivo.exists()) {
+            bw = new BufferedWriter(new FileWriter(archivo));
+            System.out.println("Archivo inicializado correctamente");
+        } else {
+            System.err.println("No se ha podido iniciar el archivo");
+        }
+        bw.close();
+    }
+    static String[] buscarClave(int clave) throws IOException {
+        File archivo = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+        String[] parts ={};
+        try {
+			// Apertura del fichero y creacion de BufferedReader para poder
+			// hacer una lectura comoda (disponer del metodo readLine()).
+                        
+			archivo = new File ("src/archivo/personas.txt");
+			fr = new FileReader (archivo);
+			br = new BufferedReader(fr);
+                        
+ 			// Lectura del fichero
+                        String texto = "";
+                        while (texto != null){
+                            texto=br.readLine(); 
+
+                            if(texto!=null){     
+                            parts = texto.split(",");
+                            if(Integer.toString(clave).equals(parts[0])) 
+                            break;
+                            }   
+                        }
+                        br.close();
+                        fr.close();
+                            
+                        
+                        
+			
+        }
+        catch(Exception e){
+            
+           e.printStackTrace();
+        }finally{
+           // En el finally cerramos el fichero, para asegurarnos
+           // que se cierra tanto si todo va bien como si salta 
+           // una excepcion.
+           try{
+              if( null != fr ){
+                 fr.close();
+              }
+           }catch (Exception e2){
+              e2.printStackTrace();
+           }
+        }
+        
+        if(parts[0].contains(Integer.toString(clave))){
+                           
+                             return parts;}
+                        else
+                            return null;
+    }
+    
+
+    
+   
+
+
+    
     public static void main(String[] args) throws IOException, InterruptedException{
          /*SwingUtilities.invokeLater(new Runnable() {
             public void run() {
@@ -102,61 +180,80 @@ public class CUHID extends JPanel{
        
         
 // create a jframe
-    JFrame marco = new JFrame("CUHID");
+    //Declaracion de Strings
     String msg = "<html><center>Bienvenido</center><br> Elija una Acción";
     String msjTarjeta="Esperando Tarjeta";
-    //Creacion de objeto para puerto
+    String[] options = {"Monitoreo de tarjetas", "Registro de Tarjetas", "Registro de Asistencias", "Acceso invitados", "Salir"};
+    String[] options2 = {"Regresar"};
+    
+    
+    //Creacion de objeto de puerto
     SerialPort sp = SerialPort.getCommPort("COM3"); // device name TODO: must be changed
     sp.setComPortParameters(9600, 8, 1, 0); // default connection settings for Arduino
     sp.setComPortTimeouts(SerialPort.TIMEOUT_WRITE_BLOCKING, 0, 0); // block until bytes can be written
-    //Fin de creacion de objeto para puerto
-    int erick=892547376;
-    boolean salir=false;
+
+       //Creacion de la etiqueta
     final JLabel label = new JLabel(msjTarjeta, JLabel.CENTER);
-    int ventana=0;
+
+    //Variables del marco contenedor de la interfáz de usuario
+    JFrame marco = new JFrame("CUHID");
     marco.setVisible(true);
-     
-    String[] options = {"Monitoreo de tarjetas", "Registro de Tarjetas", "Registro de Asistencias", "Acceso invitados"};
-    String[] options2 = {"Regresar"};
+    marco.setSize(0, 0);
+    marco.setLocation(500, 500);
+    marco.setTitle("CUHID"); 
+    marco.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+    //Variables de fichero e inicialización de ficheros
+  
+    
+    int salida=0;
+    //Creación de iconos para usar en interfaz
     ImageIcon iconCUH = createImageIcon("/image/cuhpng_1.png");//Creamos el ícono de CUH
-    // show a joptionpane dialog using showMessageDialog
-    int opcion=JOptionPane.showOptionDialog(null, "<html><br>Sistema de Identificacion del Centro Universitario Hidalguense",
+    ImageIcon iconRFID = createImageIcon("/image/RFID.png");//Creamos el ícono de RFID
+  do{  
+    // Mostrar una ventana de dialogo pidiendo opciones
+    int opcion=JOptionPane.showOptionDialog(marco, "<html><br>Sistema de Identificacion del Centro Universitario Hidalguense",
                 "CUHID Alpha",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, iconCUH, options, options[0]);
    Thread monitoreo = new Thread(new Runnable(){
         public void run(){
-            int n = JOptionPane.showOptionDialog(marco,
-"Monitoreando Tarjeta",
-"CUHID-MONITOREO",
+         int n = JOptionPane.showOptionDialog(marco,
+"Monitoreo de Tarjetas Activo...",
+"CUHID-MONITOREO Activo",
 JOptionPane.OK_OPTION,
 JOptionPane.QUESTION_MESSAGE,
-null,     //do not use a custom Icon
+iconRFID,     //do not use a custom Icon
 options2,  //the titles of buttons
 options[0]); 
+         
         }
     }); 
     
     switch(opcion){
-        case 0:
+        case 0://Monitoreo
             abrirPuerto(sp);
             monitoreo.start();
+            
             System.out.println("Monitoreo Activo");
-            do{//Menu
+            do{//Revisar estado de tarjeta
         rEstadoTarjeta(sp);
-        Thread.sleep(900);     
-                }while(opcion!=JOptionPane.OK_OPTION);
+        Thread.sleep(900);    
+                }while(monitoreo.isAlive());
             cerrarPuerto(sp);
             break;
         case 1:
+            
         break;
         case 2:
         break;
         case 3:
         break;    
-        
+        case 4:
+            salida=1;
+            System.exit(0);
+           break;
         
     }
-    
+    }while(salida!=1);
         
         
     
@@ -169,34 +266,38 @@ options[0]);
         return converso;
     }
     static void rEstadoTarjeta(SerialPort sp) throws IOException, InterruptedException{
-        String nombre="Erick Vega";
-        String mensajeS="CUHS"+";"+nombre;
-        String mensajeN="CUHN";
+        
+        
         
         String mensajeDatos="";
         int encontrado=0;
         int cEnviada=0;
+        String mensajeI="CUH";
         boolean tarjeta=false;
         byte[] clave = new byte[11];
-        if(sp.getInputStream().available()>0){
+        if(sp.getInputStream().available()>0){//Si hay instrucciones en el serial         
         encontrado=0;    
         sp.getInputStream().read(clave);
-        cEnviada=decodificar(clave);       
+        cEnviada=decodificar(clave);
         tarjeta=true;
                                            }
         if (tarjeta){
             tarjeta=false;
-            int erick=892547376;
-            if(cEnviada==erick){
+            String[] persona;
+            if((persona=buscarClave(cEnviada))!=null){
+                String msjNombre=persona[1];
+                String mensajeS="CUHS"+";"+msjNombre;
+                String mensajeN="CUHN";
              sp.getOutputStream().write(mensajeS.getBytes());
-             sp.getOutputStream().flush();
-             String msjNombre="Erick Vega";
+             sp.getOutputStream().flush();             
              System.out.println("Acceso Concedido");
              System.out.println("Bienvenido "+msjNombre);
              Thread.sleep(4000);
              encontrado=1;
             }
             if(encontrado==0){
+                System.out.println("La persona es "+persona);
+             String mensajeN="CUHN";
              sp.getOutputStream().write(mensajeN.getBytes());
              sp.getOutputStream().flush();
              System.out.println("Acceso Denegado");
