@@ -6,24 +6,19 @@ package cuhid;
 import java.io.IOException;
 import com.fazecast.jSerialComm.SerialPort;
 import javax.swing.*;
-import java.awt.*;
+
 import java.nio.ByteBuffer;
-import javax.swing.JTabbedPane;
+
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
-import javax.swing.JComponent;
-import javax.swing.UIManager;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.nio.charset.Charset;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.util.List;
+
 /**
  *
  * @author Erick Vega
