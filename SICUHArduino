@@ -2,6 +2,7 @@
 //Centro Universitario Hidalguense
 //erick@armony.systems
 
+
 #include <SPI.h>
 #include <MFRC522.h>
 #include <LiquidCrystal.h>
@@ -38,13 +39,13 @@ int melodiRechazado[] = {DoS,PAU,DoS,PAU,DoS};
 int duracionNotaRechazado[] = {d,sc,d,sc,d}; 
 
 byte incomingByte = 0;
-byte ActualUID[4]; //almacenará el código del Tag leído
 int Usuario1[4]= {53, 100, 230, 43} ; //código del usuario 1
 byte Usuario2[4]= {0x87, 0x8D, 0x60, 0xA3} ; //código del usuario 2
 
 Servo myservo;  //creamos un objeto servo 
 LiquidCrystal lcd(A0, A1, 7, 6, 5, 4);
 int inicio=0;
+int conectado=0;
 void setup() {
  lcd.begin(20, 4);
  delay(200);
@@ -55,11 +56,12 @@ void setup() {
   mfrc522.PCD_Init(); // Iniciamos  el MFRC522
 
   pinMode(8, OUTPUT); 
- 
+  delay(200);
+  
      
-     
+   inicio=0;  
    inicioPant();
-   inicio=0;
+   
    myservo.attach(3);  // asignamos el pin 9 al servo.
    myservo.write(179);
 }
@@ -87,6 +89,7 @@ void inicioPant2(){
  lcd.print("..."); 
     
 }
+
 
 void sonido(int tipo){
 if(tipo==1){  
@@ -124,7 +127,7 @@ String Split(String data, char separator, int index)
   return found>index ? data.substring(strIndex[0], strIndex[1]) : "";
 }
 
-void Cserial(){
+int Cserial(){
  if (Serial.available() > 0) {
     
     String incomingS1;
@@ -136,6 +139,10 @@ void Cserial(){
     if (incomingS1 != -1) {
       String autorizacion = Split(incomingS1,';',0);
       String nombre = Split(incomingS1,';',1);
+      if(autorizacion.equals("CUH")){  
+      
+      return 1;
+                                  }
       if(autorizacion.equals("CUHS")){  
       
       acceso(1,nombre);
@@ -146,15 +153,17 @@ void Cserial(){
                                  
       }
     }
+    return 0;
   }
 
 
 void ESerial(){                
-
+ 
                   for (byte i = 0; i <4; i++) {   
                           Serial.print(mfrc522.uid.uidByte[i]);                                                               
                   }       
-                  
+  
+
 }
 
 
@@ -221,6 +230,9 @@ if(inicio==2){
 inicioPant2();
 inicio=0;
   }
+
+
+  
 RFID();    
 Cserial();                
 
@@ -228,6 +240,7 @@ Cserial();
   
 }
 
+  
 //Función para comparar dos vectores
  boolean compareArray(byte array1[],byte array2[])
 {
