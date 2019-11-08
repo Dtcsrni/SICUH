@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.TextFlow?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: radial-gradient(center 50% 50% , radius 200px , #ffebcd, #094293);;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.InterfazInicioController">
+   <top>
+      <MenuBar nodeOrientation="RIGHT_TO_LEFT" style="-fx-background-color: linear-gradient(to top right, #ff7f50, #6a5acd);;" BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="Acerca de SIICUH">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <center>
+      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="Monitoreo de Acceso">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="399.0" layoutY="488.0" prefHeight="58.0" prefWidth="415.0" text="Últimos 5 en entrar" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="System Bold" size="30.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblNombre" alignment="CENTER" contentDisplay="CENTER" layoutY="14.0" prefHeight="58.0" prefWidth="121.0" text="Nombre" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblApellidos" alignment="CENTER" contentDisplay="CENTER" layoutX="143.0" layoutY="14.0" prefHeight="58.0" prefWidth="256.0" text="Apellidos" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblDepartamento" alignment="CENTER" contentDisplay="CENTER" layoutX="378.0" layoutY="14.0" prefHeight="58.0" prefWidth="276.0" text="Departamento" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblCarrera" alignment="CENTER" contentDisplay="CENTER" layoutX="625.0" layoutY="14.0" prefHeight="58.0" prefWidth="276.0" text="Carrera" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Label>
+                        <TextFlow fx:id="lblUltimos" layoutX="19.0" layoutY="546.0" prefHeight="186.0" prefWidth="1242.0" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Alumnos">
+               <content>
+                  <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                      <Tab text="Agregar Alumnos">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <Button layoutX="490.0" layoutY="466.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="209.0" text="Button" />
+                                    <TextField layoutX="290.0" layoutY="88.0" prefHeight="37.0" prefWidth="401.0" />
+                                    <Label layoutX="61.0" layoutY="75.0" prefHeight="50.0" prefWidth="155.0" text="Nombre(s)" textFill="WHITE">
+                                       <font>
+                                          <Font size="25.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="289.0" prefHeight="50.0" prefWidth="575.0" text="Agregar a un alumno a la base de datos" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="30.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="32.0" layoutY="154.0" prefHeight="50.0" prefWidth="212.0" text="Apellido Paterno" textFill="WHITE">
+                                       <font>
+                                          <Font size="25.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField layoutX="290.0" layoutY="160.0" prefHeight="37.0" prefWidth="401.0" />
+                                    <Label layoutX="33.0" layoutY="221.0" prefHeight="50.0" prefWidth="212.0" text="Apellido Materno" textFill="WHITE">
+                                       <font>
+                                          <Font size="25.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField layoutX="290.0" layoutY="227.0" prefHeight="37.0" prefWidth="401.0" />
+                                    <Label layoutX="15.0" layoutY="291.0" prefHeight="50.0" prefWidth="248.0" text="Programa de Estudios" textFill="WHITE">
+                                       <font>
+                                          <Font size="25.0" />
+                                       </font>
+                                    </Label>
+                                    <ChoiceBox fx:id="series" layoutX="297.0" layoutY="297.0" prefHeight="38.0" prefWidth="397.0" />
+                                 </children></AnchorPane>
+                        </content>
+                      </Tab>
+                      <Tab text="Modificar Alumnos">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        </content>
+                      </Tab>
+                        <Tab text="Borrar Alumnos">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                          </content>
+                        </Tab>
+                    </tabs>
+                  </TabPane>
+               </content>
+          </Tab>
+            <Tab text="Docentes">
+               <content>
+                  <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                      <Tab text="Agregar Docentes">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        </content>
+                      </Tab>
+                      <Tab text="Modificar Docentes">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        </content>
+                      </Tab>
+                        <Tab text="Borrar Docentes">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                          </content>
+                        </Tab>
+                    </tabs>
+                  </TabPane>
+               </content>
+            </Tab>
+            <Tab text="Administradores">
+               <content>
+                  <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                      <Tab text="Agregar Administradores">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        </content>
+                      </Tab>
+                      <Tab text="Modificar Administradores">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        </content>
+                      </Tab>
+                        <Tab text="Borrar Administradores">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                          </content>
+                        </Tab>
+                    </tabs>
+                  </TabPane>
+               </content>
+            </Tab>
+            <Tab text="Invitados">
+               <content>
+                  <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                      <Tab text="Registrar Nuevo Invitado">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        </content>
+                      </Tab>
+                    </tabs>
+                  </TabPane>
+               </content>
+            </Tab>
+            <Tab text="Reportes">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+</BorderPane>
