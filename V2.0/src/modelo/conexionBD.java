@@ -37,9 +37,9 @@ public class conexionBD {
     }
  
     public ResultSet CONSULTAR(String sql) throws SQLException{
-        return st.executeQuery(sql);
+        return st.executeQuery(sql);     
     }
-    
+      
     public int ACTUALIZAR(String sql) throws SQLException{
         return st.executeUpdate(sql);
     }

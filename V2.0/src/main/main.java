@@ -25,12 +25,12 @@ public class main extends Application {
         
         try{
         FXMLLoader loader = new FXMLLoader();    
-        AnchorPane root = loader.load(getClass().getResourceAsStream("/vista/login.fxml"));  
+        AnchorPane root = loader.load(getClass().getResourceAsStream("/vista/login.fxml"));
         
         
         
         Scene scene = new Scene(root);    
-        primaryStage.setTitle("SICUH");
+        primaryStage.setTitle("Sistema de Identificación del Centro Universitario Hidalguense");
         primaryStage.setScene(scene);
         primaryStage.show();
         
