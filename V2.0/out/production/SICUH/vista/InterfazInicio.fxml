@@ -71,7 +71,7 @@
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <Button fx:id="btnRegistrar" layoutX="922.0" layoutY="216.0" mnemonicParsing="false" onAction="#validarCargarAlumno" prefHeight="60.0" prefWidth="209.0" text="Validar y registrar" />
+                                    <Button fx:id="btnRegistrar" layoutX="846.0" layoutY="261.0" mnemonicParsing="false" onAction="#validarCargarAlumno" prefHeight="60.0" prefWidth="209.0" text="Validar y registrar" />
                                     <TextField fx:id="txtNombreAlu" layoutX="290.0" layoutY="88.0" prefHeight="37.0" prefWidth="401.0" />
                                     <Label layoutX="61.0" layoutY="75.0" prefHeight="50.0" prefWidth="155.0" text="Nombre(s)" textFill="WHITE">
                                        <font>
@@ -135,39 +135,39 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="txtID_TarjetaMod" layoutX="253.0" layoutY="91.0" prefHeight="35.0" prefWidth="348.0" />
-                                    <Button fx:id="btnBuscarMod" layoutX="829.0" layoutY="91.0" mnemonicParsing="false" onAction="#BuscarMod" prefHeight="40.0" prefWidth="153.0" text="Buscar" />
+                                    <TextField fx:id="txtID_TarjetaMod" layoutX="308.0" layoutY="94.0" prefHeight="35.0" prefWidth="415.0" />
+                                    <Button fx:id="btnBuscarMod" layoutX="829.0" layoutY="91.0" mnemonicParsing="false" onAction="#BuscarPersona" prefHeight="40.0" prefWidth="153.0" text="Buscar ID" />
                                     <Label layoutX="45.0" layoutY="191.0" prefHeight="17.0" prefWidth="141.0" text="Nombre(s)" textFill="WHITE">
                                        <font>
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="txtNombreMod" layoutX="308.0" layoutY="196.0" prefHeight="35.0" prefWidth="409.0" />
+                                    <TextField fx:id="txtNombreMod" disable="true" layoutX="308.0" layoutY="196.0" prefHeight="35.0" prefWidth="414.0" />
                                     <Label layoutX="16.0" layoutY="257.0" prefHeight="45.0" prefWidth="240.0" text="Apellido Paterno" textFill="WHITE">
                                        <font>
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="txtApellidoPatMod" layoutX="308.0" layoutY="262.0" prefHeight="35.0" prefWidth="409.0" />
+                                    <TextField fx:id="txtApellidoPatMod" disable="true" layoutX="308.0" layoutY="262.0" prefHeight="35.0" prefWidth="414.0" />
                                     <Label layoutX="18.0" layoutY="323.0" prefHeight="45.0" prefWidth="237.0" text="Apellido Materno" textFill="WHITE">
                                        <font>
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="txtApellidoMatMod" layoutX="308.0" layoutY="333.0" prefHeight="35.0" prefWidth="409.0" />
+                                    <TextField fx:id="txtApellidoMatMod" disable="true" layoutX="308.0" layoutY="333.0" prefHeight="35.0" prefWidth="415.0" />
                                     <Label layoutX="45.0" layoutY="397.0" prefHeight="17.0" prefWidth="141.0" text="Correo" textFill="WHITE">
                                        <font>
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="txtCorreoMod" layoutX="308.0" layoutY="402.0" prefHeight="35.0" prefWidth="409.0" />
+                                    <TextField fx:id="txtCorreoMod" disable="true" layoutX="311.0" layoutY="402.0" prefHeight="35.0" prefWidth="413.0" />
                                     <Label layoutX="14.0" layoutY="485.0" prefHeight="45.0" prefWidth="294.0" text="Programa de Estudios" textFill="WHITE">
                                        <font>
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <ChoiceBox fx:id="seriesMod" layoutX="329.0" layoutY="495.0" prefHeight="35.0" prefWidth="384.0" />
-                                    <Button fx:id="btnModifReg" layoutX="920.0" layoutY="377.0" mnemonicParsing="false" onAction="#validarModificarAlumno" prefHeight="40.0" prefWidth="153.0" text="Modificar Registro" />
+                                    <ChoiceBox fx:id="seriesMod" disable="true" layoutX="310.0" layoutY="495.0" prefHeight="35.0" prefWidth="418.0" />
+                                    <Button fx:id="btnModifReg" disable="true" layoutX="829.0" layoutY="303.0" mnemonicParsing="false" onAction="#validarModificar" prefHeight="40.0" prefWidth="153.0" text="Modificar Registro" />
                                     <Label fx:id="lblMod" alignment="CENTER" contentDisplay="CENTER" layoutX="8.0" layoutY="614.0" prefHeight="95.0" prefWidth="1271.0" textAlignment="CENTER" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="30.0" />
@@ -178,7 +178,53 @@
                       </Tab>
                         <Tab text="Borrar Alumnos">
                           <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <Label layoutX="67.0" layoutY="83.0" prefHeight="45.0" prefWidth="195.0" text="ID_Tarjeta" textFill="WHITE">
+                                       <font>
+                                          <Font size="30.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="txtIDBorrar" layoutX="279.0" layoutY="90.0" prefHeight="41.0" prefWidth="341.0" />
+                                    <Button fx:id="btnIDBorrar" layoutX="659.0" layoutY="86.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="172.0" text="Buscar ID" />
+                                    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="437.0" layoutY="20.0" text="Borrar alumno de registro" textAlignment="CENTER" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="30.0" />
+                                       </font>
+                                    </Label>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="34.0" layoutY="198.0" prefHeight="45.0" prefWidth="195.0" text="Nombre(s)" textFill="WHITE">
+                                       <font>
+                                          <Font size="30.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="txtNombreBorrar" editable="false" layoutX="308.0" layoutY="201.0" opacity="0.75" prefHeight="39.0" prefWidth="341.0" />
+                                    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="21.0" layoutY="260.0" prefHeight="45.0" prefWidth="227.0" text="Apellido Paterno" textFill="WHITE">
+                                       <font>
+                                          <Font size="30.0" />
+                                       </font>
+                                    </Label>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="314.0" prefHeight="45.0" prefWidth="233.0" text="Apellido Materno" textFill="WHITE">
+                                       <font>
+                                          <Font size="30.0" />
+                                       </font>
+                                    </Label>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="34.0" layoutY="367.0" prefHeight="45.0" prefWidth="195.0" text="Correo" textFill="WHITE">
+                                       <font>
+                                          <Font size="30.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="txtApellidoPatBorrar" editable="false" layoutX="308.0" layoutY="263.0" opacity="0.75" prefHeight="39.0" prefWidth="341.0" />
+                                    <TextField fx:id="txtApellidoMatBorrar" editable="false" layoutX="308.0" layoutY="317.0" opacity="0.75" prefHeight="39.0" prefWidth="341.0" />
+                                    <TextField fx:id="txtCorreoAlumBorrar" editable="false" layoutX="308.0" layoutY="370.0" opacity="0.75" prefHeight="39.0" prefWidth="341.0" />
+                                    <Label layoutX="3.0" layoutY="423.0" prefHeight="45.0" prefWidth="322.0" text="Programa de estudios" textFill="WHITE">
+                                       <font>
+                                          <Font size="30.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="txtCarreraBorrar" editable="false" layoutX="308.0" layoutY="426.0" opacity="0.75" prefHeight="39.0" prefWidth="341.0" />
+                                    <Button fx:id="btnEliminarAlumno" alignment="CENTER" contentDisplay="CENTER" disable="true" layoutX="804.0" layoutY="298.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="172.0" text="ELIMINAR REGISTRO" textAlignment="CENTER" />
+                                    <Label layoutX="-1.0" layoutY="526.0" prefHeight="192.0" prefWidth="1280.0" text="Label" />
+                                 </children></AnchorPane>
                           </content>
                         </Tab>
                     </tabs>

@@ -26,11 +26,15 @@ public class alumno {
         this.programaEstudios = new SimpleStringProperty(programa_Estudios);
         this.correo = new SimpleStringProperty(correo_Alum);
     }
-    
+
+
+
     public static alumno getInstanceUser(String id_usr,String nombre_usr, String apellido_Paterno, String apellido_Materno, String programa_Estudios, String correo_Alum){
+
         if(usr == null){
-            usr = new alumno(id_usr,nombre_usr, apellido_Paterno, apellido_Materno,programa_Estudios,correo_Alum); 
+            usr = new alumno(id_usr,nombre_usr, apellido_Paterno, apellido_Materno,programa_Estudios,correo_Alum);
         }
+
         return usr;
     }
 

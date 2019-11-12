@@ -36,13 +36,14 @@ public class alumnoDAO {
         return true;
     }
     
-     public boolean buscarAlumno(String Id_User){
+     public modelo.alumno buscarAlumno(String Id_User){
         conexionBD con = new conexionBD();
+         modelo.alumno usr = null;
         int q;
         try {
             ResultSet rs = con.CONSULTAR("SELECT * FROM alumnos WHERE id_usr='"+Id_User+"'");
             if(rs.next()){
-                modelo.alumno usr = modelo.alumno.getInstanceUser(
+               usr = new modelo.alumno(
                         rs.getString("id_usr"),
                         rs.getString("nombre"),
                         rs.getString("apellido_paterno"),
@@ -50,9 +51,9 @@ public class alumnoDAO {
                         rs.getString("programa_estudios"),
                         rs.getString("correo") );
                 
-             return true;
+             return usr;
             }else{
-             return false;
+             return null;
             }
             
         } catch (SQLException ex) {
@@ -61,7 +62,7 @@ public class alumnoDAO {
             Logger.getLogger(usuarioDAO.class.getName()).log(Level.SEVERE, null, ex);    
         }
         
-        return true;
+        return usr;
     }
      
      public boolean actualizarAlumno(String Id_User, String Nombre,String ApellidoPat,String ApellidoMat,String CorreoAlum,String CarreraAlum){

@@ -9,32 +9,40 @@
 
 <AnchorPane id="AnchorPane" fx:id="ap" prefHeight="561.0" prefWidth="801.0" style="-fx-background-color: radial-gradient(center 50% 50% , radius 200px , #ffebcd, #094293);" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.LoginController">
    <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="322.0" layoutY="143.0" text="Bienvenido" textAlignment="CENTER" textFill="WHITE">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="319.0" layoutY="143.0" text="Bienvenido" textAlignment="CENTER" textFill="WHITE">
          <font>
-            <Font size="31.0" />
+            <Font name="System Bold" size="30.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="214.0" layoutY="205.0" text="Por favor ingrese sus credenciales" textFill="WHITE">
+      <Label alignment="CENTER" layoutX="214.0" layoutY="181.0" text="Por favor ingrese sus credenciales" textFill="WHITE">
          <font>
             <Font size="23.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="116.0" layoutY="284.0" prefHeight="43.0" prefWidth="98.0" text="Correo" textFill="WHITE">
+      <Label alignment="CENTER" layoutX="46.0" layoutY="238.0" prefHeight="43.0" prefWidth="98.0" text="Correo" textFill="WHITE">
          <font>
             <Font size="29.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="84.0" layoutY="349.0" prefHeight="43.0" prefWidth="162.0" text="Contraseña" textFill="WHITE">
+      <Label alignment="CENTER" layoutX="14.0" layoutY="303.0" prefHeight="43.0" prefWidth="162.0" text="Contraseña" textFill="WHITE">
          <font>
             <Font size="29.0" />
          </font>
       </Label>
-      <TextField fx:id="txtCorreo" layoutX="246.0" layoutY="284.0" prefHeight="43.0" prefWidth="450.0" />
-      <PasswordField fx:id="txtPass" layoutX="266.0" layoutY="356.0" prefHeight="43.0" prefWidth="420.0" />
-      <Button fx:id="btnAcceder" layoutX="343.0" layoutY="421.0" mnemonicParsing="false" onAction="#iniciar_sesion" prefHeight="46.0" prefWidth="98.0" text="Acceder" />
+      <TextField fx:id="txtCorreo" layoutX="196.0" layoutY="238.0" prefHeight="43.0" prefWidth="450.0" />
+      <PasswordField fx:id="txtPass" layoutX="196.0" layoutY="310.0" prefHeight="43.0" prefWidth="450.0" />
+      <Button fx:id="btnAcceder" layoutX="309.0" layoutY="373.0" mnemonicParsing="false" onAction="#iniciar_sesion" prefHeight="67.0" prefWidth="179.0" text="Acceder">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font></Button>
       <Label fx:id="labelResultado" alignment="CENTER" contentDisplay="CENTER" layoutX="101.0" layoutY="502.0" prefHeight="45.0" prefWidth="582.0" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="25.0" />
          </font></Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="160.0" layoutY="34.0" prefHeight="115.0" prefWidth="482.0" text="Sistema de Identificación del Centro Universitario Hidalguense" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
